@@ -37,18 +37,14 @@ var getCurrentData = function(location, lat, lon){
             currentInfo = JSON.parse(request.response);
 
             temp = currentInfo["current"]["temp"];
-            console.log(temp);
 
             wind = currentInfo["current"]["wind_speed"];
-            console.log(wind);
 
             humidity= currentInfo["current"]["humidity"];
-            console.log(humidity);
 
             uv = currentInfo["current"]["uvi"];
-            console.log(uv);
 
-            displayCurrent(location,temp,wind,humidity,uv);
+            now = displayCurrent(location,temp,wind,humidity,uv);
             
             dailyInfo = JSON.parse(request.response);
 
@@ -65,7 +61,7 @@ var getCurrentData = function(location, lat, lon){
             }
             console.log(fiveDayArray);
 
-            displayFiveDay(fiveDayArray);
+            displayFiveDay(fiveDayArray, now);
             
         } else {
             console.log('error ${request.status} ${request.statusText}')
@@ -73,14 +69,19 @@ var getCurrentData = function(location, lat, lon){
     }
 };
 
-var displayFiveDay = function(array){
-    divArray = $("[id^='0") 
-    divArray.each(function(index){
-        $(this).attr("class","card-body");
-        $(this).val(array[index])
-        console.log(array[index])
-    });
-}
+var displayFiveDay = function(array, now){
+    console.log("Now: "+now)
+    for(var i = 0; i<array.length; i++){
+       $(".cards").append("<div class='card .ml-2 d-flex justify-content-between' style='width:18rem;'></div>");
+       $(".cards").last().append("<div class='card-body'></div>");
+       $(".card-body").last().append("<h5 class='card-title'></h5>");
+       $("div h5").last().val(moment(now, "MM/DD/YYYY").add(i,'days').toString());
+       console.log("Now+i: "+(moment(now, "MM/DD/YYYY").add(i,'days').toString()));
+       $("div h5").last().append("<p class='card-text'></p>");
+       $("h5 p").last().val(array[i]);
+       console.log(array[i]);
+    };
+};
 
 
 var displayCurrent = function(location,temp,wind,humidity,uv){
@@ -100,6 +101,7 @@ var displayCurrent = function(location,temp,wind,humidity,uv){
     $("#city-humid").append('<h3 id = "city-uv"></h2>')
     $("#city-uv").text("UV Index "+ uv); 
 
+    return(now)
 };
 
 
