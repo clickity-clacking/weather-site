@@ -25,19 +25,16 @@
                     <h2>Search for a City:</h2>
                 </div>
         
-                <div class = "city-search">
-                    <input type="text" placeholder="San Diego" class ="col-12">
-                </div>
-        
-                <div>
-                    <button class="col-12">Search</button>
-                </div>
+                <form id = "select-city"> 
+                    <input type="text" placeholder="San Diego" class ="col-12" id = "city-search">
+            
+                    <input type="submit" class="col-12" id="initiate-search" value = "Search">
+                </form>
+               
             </section>
 
             <section class = "col-8 current">
-                <section class="col-12 subset">
-                    <div></div>
-                </section>
+                <section class="col-12 subset"></section>
             </section>
 
             
@@ -49,13 +46,30 @@
                 <ul id="searched-list"> </ul>
             </section>
 
-            <section class = " col-8 five-day ">
-                <h3>5-Day Forecast:</h3>
+            <section class = "col-8 five-day ">
+                <div><h3>5-Day Forecast:</h3></div>
+                <section class = "cards">
+                    <div class = "card" id = "00"></div>
+                    <div class = "card" id = "01"></div>
+                    <div class = "card" id = "02"></div>
+                    <div class = "card" id = "03"></div>
+                    <div class = "card" id = "04"></div>
+                </section>
             </section>
        </section>
        
     </container>
    
+    <!-- bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- json -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-json/2.6.0/jquery.json.min.js"></script>
+    <!-- moment -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
    <script src="./assets/script.js"></script> 
 </body>

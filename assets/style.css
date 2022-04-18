@@ -2,6 +2,10 @@ h1, h2, h3{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+h1, h2 {
+    font-weight: bold;
+}
+
 button{
     border-radius: 10px;
     align-self: center;
@@ -48,4 +52,8 @@ header{
     align-items: center;
     outline-style: dashed;
 
+}
+
+.card{
+    outline-style: dashed;
 }
