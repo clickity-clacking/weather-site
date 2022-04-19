@@ -1,9 +1,10 @@
-.ml-2 {
-    margin-left: ($spacer * .5) !important;
-  }
 
-h1, h2, h3{
+h1, h2, h3, h4, h5{
     font-family: Arial, Helvetica, sans-serif;
+}
+
+h3{
+    margin: 5 0;
 }
 
 h1, h2 {
@@ -11,13 +12,15 @@ h1, h2 {
 }
 
 button{
+    padding: 10px;
     border-radius: 10px;
-    align-self: center;
+    border: 3px solid gray;
 }
 
 input{
     padding: 10px;
     border-radius: 10px;
+    margin: 5px;
 }
 
 header{
@@ -25,6 +28,11 @@ header{
     background-image: linear-gradient(to right, blue, rgb(63, 8, 107));
     color: white;
     padding:.25%;
+}
+
+p{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: larger;
 }
 
 .search{
@@ -48,20 +56,27 @@ header{
 
 .searched{
     align-items: left;
-    outline-style: dotted;
     margin: 0;
 }
 
 .five-day{
     align-items: center;
-    outline-style: dashed;
 
 }
 
-.cards{
+.cityButton{
+    background-color:rgb(183, 209, 209);
+    color: black;
 
 }
 
 .card{
-    outline-style: dashed;
+    background-color: rgb(3, 29, 65);
+    color: white;
+    margin:10px;
+}
+
+#initiate-search{
+    background-color: rgb(54, 130, 157);
+    color: white;
 }

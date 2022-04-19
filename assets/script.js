@@ -2,28 +2,41 @@ $("#select-city").submit(function(event){
     event.preventDefault();
 
     city = $("input").val();
-    cityLat = 0;
-    cityLon = 0;
-
-    let request = new XMLHttpRequest();
-    request.open("GET", "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=97407a41ef47c0e6db4595757b8819ac")
-    request.send();
-
-    request.onload = () => {
-        if(request.status === 200) {
-            cityInfo = JSON.parse(request.response);
-            console.log(cityInfo);
-            cityLat = cityInfo[0]["lat"];
-            cityLon = cityInfo[0]["lon"];
-            getCurrentData(city, cityLat, cityLon);
-        } else {
-            console.log('error ${request.status} ${request.statusText}')
-            alert("Please enter a valid city");
-        }
-    }
-
+   
+    apiReq(city);
+    addToList(city);
 
 });
+
+var apiReq = function(city){
+    cityLat = 0;
+    cityLon = 0;
+    var data = {}
+
+    fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=97407a41ef47c0e6db4595757b8819ac")
+    .then(function(response){
+        var status = response["status"];
+        console.log("status: "+status);
+        if(status !== 200) {
+            console.log('Problem: status code: ' + response.status);
+            if(response.status === 400){
+                alert("Please enter a valid city");
+            };
+            return;
+        }
+
+        response.json().then(function(data) {
+            cityInfo = data[0];
+            console.log("city info: "+cityInfo);
+            cityLat = cityInfo["lat"];
+            cityLon = cityInfo["lon"];
+            getCurrentData(city, cityLat, cityLon); 
+         });
+    });
+};
+    
+
+
 
 var getCurrentData = function(location, lat, lon){
     console.log("getting current data");
@@ -70,16 +83,19 @@ var getCurrentData = function(location, lat, lon){
 };
 
 var displayFiveDay = function(array, now){
+    $(".cards").empty();
     console.log("Now: "+now)
     for(var i = 0; i<array.length; i++){
-       $(".cards").append("<div class='card .ml-2 d-flex justify-content-between' style='width:18rem;'></div>");
-       $(".cards").last().append("<div class='card-body'></div>");
-       $(".card-body").last().append("<h5 class='card-title'></h5>");
-       $("div h5").last().val(moment(now, "MM/DD/YYYY").add(i,'days').toString());
-       console.log("Now+i: "+(moment(now, "MM/DD/YYYY").add(i,'days').toString()));
-       $("div h5").last().append("<p class='card-text'></p>");
-       $("h5 p").last().val(array[i]);
-       console.log(array[i]);
+        const obj = array[i];
+        var card = $("<div class='card col-2' style='height:18rem'></div>");
+        var cardBody = $("<div class='card-body'></div>");
+        var h5 = $("<h5 class='card-title'></h5>");
+        h5.text(moment(now, "MM/DD/YYYY").add(i,'days').format("MM/DD/YYYY").toString());
+        var p = $("<p class='card-text'></p>");
+        p.text("Temp: "+ array[i].temp + "\nWind:" +array[i].wind  + "\nHumidity: "+array[i].humidity);
+        cardBody.append(h5,p);
+        card.append(cardBody);
+        $(".cards").append(card);
     };
 };
 
@@ -90,19 +106,31 @@ var displayCurrent = function(location,temp,wind,humidity,uv){
     $("#city-label").text(location +" ("+ now + ")"); 
 
     $("#city-label").append('<h3 id = "city-temp"></h2>')
-    $("#city-temp").text("Temp "+ temp); 
+    $("#city-temp").text("Temp: "+ temp); 
 
     $("#city-temp").append('<h3 id = "city-wind"></h2>')
-    $("#city-wind").text("Wind "+ wind); 
+    $("#city-wind").text("Wind: "+ wind); 
 
     $("#city-wind").append('<h3 id = "city-humid"></h2>')
-    $("#city-humid").text("Humidity "+ humidity); 
+    $("#city-humid").text("Humidity: "+ humidity); 
 
     $("#city-humid").append('<h3 id = "city-uv"></h2>')
-    $("#city-uv").text("UV Index "+ uv); 
+    $("#city-uv").text("UV Index: "+ uv); 
 
     return(now)
 };
 
 
+
+var addToList = function(city){
+    var cityLi = $("<li class='cityButtonCard card'></li>");
+    var cityBtn = $(`<button class='card-text cityButton' onclick='loadData(event)' value=${city}>${city}</button>`);
+    cityLi.append(cityBtn);
+    $('#searched-list').append(cityLi);
+};
+
+function loadData(event){
+    var city = event.target.value;
+    apiReq(city);
+};
 
